@@ -3,20 +3,45 @@ package com.example.kotlinfundamentels
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
+import androidx.activity.viewModels
 import com.example.kotlinfundamentels.model.Person
+import com.example.kotlinfundamentels.viewmodel.MainActivityViewModel
 
 
 const val TAG = "MainActivity"
 
 
 class MainActivity : AppCompatActivity() {
+
+
+    val mainActivityViewModel:MainActivityViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
         //var and val // const val
-        testVarVal()
+        //testVarVal()
+
+        fetchRandomImage()
+    }
+
+    private fun fetchRandomImage() {
+
+
+        var nextButton:Button = findViewById<Button>(R.id.randomButton)
+        val randomImage = findViewById<ImageView>(R.id.imageView)
+
+        nextButton.setOnClickListener {
+
+            randomImage.setImageResource(mainActivityViewModel.getImage())
+
+        }
+
 
     }
 
