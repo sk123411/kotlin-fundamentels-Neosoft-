@@ -3,11 +3,12 @@ package com.example.kotlinfundamentels
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfundamentels.model.Person
-import com.example.kotlinfundamentels.viewmodel.MainActivityViewModel
+import com.example.kotlinfundamentels.ui.PostsAdapter
+import com.example.kotlinfundamentels.repository.viewmodel.MainActivityViewModel
 
 
 const val TAG = "MainActivity"
@@ -16,7 +17,7 @@ const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
 
 
-    val mainActivityViewModel:MainActivityViewModel by viewModels()
+    val mainActivityViewModel: MainActivityViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,21 +27,48 @@ class MainActivity : AppCompatActivity() {
 
         //var and val // const val
         //testVarVal()
-
+        fetchPosts()
         fetchRandomImage()
     }
 
     private fun fetchRandomImage() {
 
 
-        var nextButton:Button = findViewById<Button>(R.id.randomButton)
-        val randomImage = findViewById<ImageView>(R.id.imageView)
+//        var nextButton:Button = findViewById<Button>(R.id.randomButton)
+//        val randomImage = findViewById<ImageView>(R.id.imageView)
+//
+//        nextButton.setOnClickListener {
+//
+//            randomImage.setImageResource(mainActivityViewModel.getImage())
+//
+//        }
 
-        nextButton.setOnClickListener {
 
-            randomImage.setImageResource(mainActivityViewModel.getImage())
+    }
 
-        }
+
+    private fun fetchPosts(){
+
+        mainActivityViewModel.getPosts()
+
+        val postView = findViewById<RecyclerView>(R.id.postList)
+
+
+
+        mainActivityViewModel.postList.observe(this,{
+
+            postView.apply {
+                layoutManager = LinearLayoutManager(this@MainActivity)
+                adapter = PostsAdapter(it)
+
+            }
+
+        })
+
+        Log.d(TAG,":::"+mainActivityViewModel.postList.toString())
+
+
+
 
 
     }
