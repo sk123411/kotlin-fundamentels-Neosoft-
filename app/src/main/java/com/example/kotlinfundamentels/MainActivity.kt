@@ -3,6 +3,8 @@ package com.example.kotlinfundamentels
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,15 +49,24 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun fetchPosts(){
+    private fun fetchPosts() {
 
-        mainActivityViewModel.getPosts()
+        mainActivityViewModel.getRXPosts()
 
         val postView = findViewById<RecyclerView>(R.id.postList)
+        val loading = findViewById<ProgressBar>(R.id.loadingUI)
+
+        mainActivityViewModel.loading.observe(this, {
+
+            when (it) {
+                true->  loading.visibility = View.VISIBLE
+                else ->  loading.visibility = View.GONE
+            }
+
+        })
 
 
-
-        mainActivityViewModel.postList.observe(this,{
+        mainActivityViewModel.postList.observe(this, {
 
             postView.apply {
                 layoutManager = LinearLayoutManager(this@MainActivity)
@@ -65,10 +76,10 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        Log.d(TAG,":::"+mainActivityViewModel.postList.toString())
 
 
 
+        Log.d(TAG, ":::" + mainActivityViewModel.postList.toString())
 
 
     }
@@ -159,7 +170,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
         //Map in kotlin ,the type of values change automatically when use
         // INT value to String value,
 
@@ -190,10 +200,6 @@ class MainActivity : AppCompatActivity() {
         val numbers = listOf(5, 42, 10, 4)
         val min3Remainder = numbers.sumOf { it * 2 }
         println(min3Remainder)
-
-
-
-
 
 
     }

@@ -5,8 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
 
 import okhttp3.OkHttpClient
-
-
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 
 object RetrofitClient {
@@ -22,5 +21,13 @@ object RetrofitClient {
         return retrofit
     }
 
+    fun getRXClient(): Retrofit? {
 
+        retrofit = Retrofit.Builder()
+            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+        return retrofit
+    }
 }
