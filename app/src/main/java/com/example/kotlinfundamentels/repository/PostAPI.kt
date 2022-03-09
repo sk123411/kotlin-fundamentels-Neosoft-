@@ -1,5 +1,6 @@
 package com.example.kotlinfundamentels.repository
 
+import com.example.kotlinfundamentels.model.commets.CommentsResponse
 import com.example.kotlinfundamentels.model.posts.PostsModel
 import io.reactivex.Observable
 import retrofit2.Call
@@ -18,6 +19,7 @@ interface PostAPI {
     fun getRXPosts(): Observable<PostsModel?>
 
 
-
+    @GET("comments")
+    fun getRXComments(): Observable<CommentsResponse>
 
 }

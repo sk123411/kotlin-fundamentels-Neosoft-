@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinfundamentels.model.Person
 import com.example.kotlinfundamentels.ui.PostsAdapter
 import com.example.kotlinfundamentels.repository.viewmodel.MainActivityViewModel
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.runBlocking
 
 
 const val TAG = "MainActivity"
@@ -22,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     val mainActivityViewModel: MainActivityViewModel by viewModels()
 
 
+    @InternalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,6 +34,24 @@ class MainActivity : AppCompatActivity() {
 
         //var and val // const val
         //testVarVal()
+//        runBlocking {
+//            val numbersFlow = flowOf(1,2,3).onEach { delay(1000) }
+//            val lettersFlow = flowOf("A", "B","C").onEach { delay(2000) }
+//
+//            numbersFlow.combine(lettersFlow) { number, letter ->
+//                "$number$letter"
+//            }.collect {
+//
+//                Log.d("ooooooo",": ${it}")
+//            }
+//
+//        }
+
+
+
+
+
+
         fetchPosts()
         fetchRandomImage()
     }
@@ -52,6 +75,7 @@ class MainActivity : AppCompatActivity() {
     private fun fetchPosts() {
 
         mainActivityViewModel.getRXPosts()
+        mainActivityViewModel.getPostAndComments()
 
         val postView = findViewById<RecyclerView>(R.id.postList)
         val loading = findViewById<ProgressBar>(R.id.loadingUI)
@@ -79,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        Log.d(TAG, ":::" + mainActivityViewModel.postList.toString())
+//        Log.d(TAG, ":::" + mainActivityViewModel.postList.toString())
 
 
     }
@@ -206,3 +230,4 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+
